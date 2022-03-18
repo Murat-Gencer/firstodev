@@ -11,40 +11,40 @@ import java.util.Arrays;
 import java.util.Random;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @Test void testFound(){
+        ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,2,3,4));            
+        ArrayList<Integer> expected=new ArrayList<>(Arrays.asList(4,8,12,16));
+        assertEquals(expected,App.compute((array), 4 ,"*"));        
     }
-        @Test void testFound(){
-            ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,2,3,4));
-            ArrayList<Integer> expected=new ArrayList<>(Arrays.asList(4,8,12,16));
-            assertEquals(expected,App.compute((array), 4 ,"*"));
-            
-        }
-        @Test void testNotFound(){
-            ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,2,3,4));
-            ArrayList<Integer> expected=new ArrayList<>(4);
-            Random generator=new Random();
-            int temp=generator.nextInt(180);
-            for(int i = 0 ; i  < 4 ; i++){
-                    while(true){
-                    if(temp != 4 && temp!=8 && temp!=12 && temp!=16){
-                        expected.add(i,temp);
-                        break;
-                    }
-                    else{
-                        temp=generator.nextInt(180);
-                    }
+    @Test void testNotFound(){
+        ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,2,3,4));
+        ArrayList<Integer> expected=new ArrayList<>(4);
+        Random generator=new Random();
+        int temp=generator.nextInt(180);
+        for(int i = 0 ; i  < 4 ; i++){
+            while(true){
+                if(temp != 4 && temp!=8 && temp!=12 && temp!=16){
+                    expected.add(i,temp);
+                    break;
+                }
+                else{
+                    temp=generator.nextInt(180);
                 }
             }
-            assertNotEquals(expected,App.compute((array), 4 ,"*"));
-            
         }
-        @Test void includeNegative(){
-            ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,1,1,1));
-            
-            assertTrue(App.compute(array, 4, "-").get(0) <0);
-        }
+        assertNotEquals(expected,App.compute((array), 4 ,"*"));
             
     }
+    @Test void includeNegative(){
+        ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,1,1,1));    
+        assertTrue(App.compute(array, 4, "-").get(0) <0);
+    }
+    @Test void nullArray(){
+        assertNull(App.compute(null, 4, "/"));;
+    }
+    @Test void nullProcessor(){
+        ArrayList<Integer> array=new ArrayList<>(Arrays.asList(1,1,1,1));  
+        assertEquals(null, App.compute(array, 4, ""));;
+    }         
+}
 
