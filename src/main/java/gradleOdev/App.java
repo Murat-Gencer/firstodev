@@ -30,6 +30,9 @@ public class App {
     public static ArrayList<Integer>  compute (ArrayList<Integer> array, int e,String proces) {
       ArrayList<Integer> arr = new ArrayList<Integer>(array.size());
       int element;
+      if(array == null) {
+        return null;
+      }
       for (int i = 0; i < array.size() ; i++){
         if(proces.equals("/")){
           element=array.get(i)/e;
@@ -37,8 +40,11 @@ public class App {
           element=array.get(i)*e;
         }else if(proces.equals("+")){
           element=array.get(i)+e;
-        }else{
+        }else if (proces.equals("-")){
           element=array.get(i)-e;
+        }
+        else{
+          return null;
         }
         arr.add(i, element);
       }
@@ -48,20 +54,19 @@ public class App {
 
 
     public static void main(String[] args) {
+      /*
         Logger logger = LogManager.getLogger(App.class);
 
-        int port = Integer.parseInt(System.getenv("PORT"));
+        int port = Integer.parseInt(System.getenv("&PORT"));
         port(port);
         logger.error("Current port number:" + port);
-
+*/
         port(getHerokuAssignedPort());
 
         get("/", (req, res) -> "Hello, World");
     
         post("/compute", (req, res) -> {
-          //System.out.println(req.queryParams("input1"));
-          //System.out.println(req.queryParams("input2"));
-
+          
           String input1 = req.queryParams("input1");
           java.util.Scanner sc1 = new java.util.Scanner(input1);
           sc1.useDelimiter("[;\r\n]+");
@@ -82,13 +87,17 @@ public class App {
           String input3=req.queryParams("input3");
 
           ArrayList<Integer> result = App.compute(inputList, input2AsInt,input3);
-          String re="";
-          for(int i = 0; i  < result.size();i++){
-            re+=result.get(i)+" ";
-          }
-          System.out.println(re);
           Map<String, String > map = new HashMap<String,String>();
-          map.put("result",re);
+          if(result == null){
+            map.put("result", "the input is not valid for the website please enter valid input");
+          }else{
+
+            String re="";
+            for(int i = 0; i  < result.size();i++){
+              re+=result.get(i)+" ";
+            }
+            map.put("result",re);
+          }
           return new ModelAndView(map, "compute.mustache");
         }, new MustacheTemplateEngine());
 
