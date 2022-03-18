@@ -28,11 +28,11 @@ public class App {
     }
 
     public static ArrayList<Integer>  compute (ArrayList<Integer> array, int e,String proces) {
-      ArrayList<Integer> arr = new ArrayList<Integer>(array.size());
+        if(array == null || array.size()==0) {
+            return null;
+         }
+        ArrayList<Integer> arr = new ArrayList<Integer>(array.size());
       int element;
-      if(array == null) {
-        return null;
-      }
       for (int i = 0; i < array.size() ; i++){
         if(proces.equals("/")){
           element=array.get(i)/e;
@@ -54,13 +54,13 @@ public class App {
 
 
     public static void main(String[] args) {
-      /*
+      
         Logger logger = LogManager.getLogger(App.class);
 
         int port = Integer.parseInt(System.getenv("&PORT"));
         port(port);
         logger.error("Current port number:" + port);
-*/
+
         port(getHerokuAssignedPort());
 
         get("/", (req, res) -> "Hello, World");
